@@ -34,10 +34,6 @@ public class Account {
         this.transactionHistory = new ArrayList<>();
     }
 
-    @Override
-    public String toString() {
-        return "";
-    }
 
 
 }

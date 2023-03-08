@@ -7,7 +7,7 @@ import java.util.List;
 public class Account {
      private BigDecimal balance;
 
-     private List<Transaction> transactionHistory = new ArrayList<>();
+     private List<Transaction> transactionHistory;
 
 
 
@@ -32,12 +32,7 @@ public class Account {
 
     public Account(List<Transaction> transactionHistory) {
         this.balance = new BigDecimal("1000.00");
-        this.transactionHistory = transactionHistory;
-    }
-
-    @Override
-    public String toString() {
-        return "";
+        this.transactionHistory = new ArrayList<>();
     }
 
 
