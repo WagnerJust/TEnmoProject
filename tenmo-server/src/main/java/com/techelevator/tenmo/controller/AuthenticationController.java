@@ -37,6 +37,7 @@ public class AuthenticationController {
         this.userDao = userDao;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public LoginResponseDto login(@Valid @RequestBody LoginDto loginDto) {
 
