@@ -6,10 +6,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class User {
+public class  User {
 
    private int id;
    private String username;
+   private Account account;
    @JsonIgnore // prevent from being sent to client
    private String password;
    @JsonIgnore
@@ -24,6 +25,7 @@ public class User {
       this.password = password;
       if(authorities != null) this.setAuthorities(authorities);
       this.activated = true;
+      this.account = new Account();
    }
 
    public int getId() {

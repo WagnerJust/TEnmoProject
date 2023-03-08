@@ -5,7 +5,16 @@ import java.util.Objects;
 public class User {
 
     private int id;
+    private Account account;
     private String username;
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public int getId() {
         return id;
@@ -39,3 +48,5 @@ public class User {
         return Objects.hash(id, username);
     }
 }
+
+
