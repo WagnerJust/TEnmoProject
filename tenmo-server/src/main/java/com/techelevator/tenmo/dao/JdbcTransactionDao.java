@@ -57,12 +57,12 @@ public class JdbcTransactionDao implements TransactionDao {
                 transaction.getAccountTo(), transaction.getAmount());
     }
     @Override
-    public void updateTransferStatus(int transfeId, int transferStatusId) {
+    public void updateTransferStatus(int transferId, int transferStatusId) {
         String updateStatus = "UPDATE transfers "
                 + "SET transfer_status_id = ? "
                 + "WHERE transfer_id = ? ";
 
-        jdbcTemplate.update(updateStatus, transferStatusId, transfeId);
+        jdbcTemplate.update(updateStatus, transferStatusId, transferId);
 
     }
 

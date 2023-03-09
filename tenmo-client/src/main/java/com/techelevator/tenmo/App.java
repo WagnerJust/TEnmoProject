@@ -1,15 +1,20 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transaction;
 import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.UserService;
 
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
 
     private final ConsoleService consoleService = new ConsoleService();
+    private final UserService userService = new UserService();
+    private final AccountService accountService = new AccountService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
@@ -85,11 +90,19 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
+        System.out.println();
+        System.out.println("Current Balance: " + accountService.getBalance());
+
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void viewTransferHistory() {
+        System.out.println();
+        System.out.println("Transaction History:\n");
+        for(Transaction transaction : accountService.getAllTransactions()){
+            System.out.println(transaction.toString());
+        }
 		// TODO Auto-generated method stub
 		
 	}
@@ -100,6 +113,8 @@ public class App {
 	}
 
 	private void sendBucks() {
+        System.out.println();
+        userService.get
 		// TODO Auto-generated method stub
 		
 	}

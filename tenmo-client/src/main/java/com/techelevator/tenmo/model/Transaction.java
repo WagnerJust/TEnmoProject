@@ -92,4 +92,17 @@ public class Transaction {
     public Transaction(){
 
     }
+
+    @Override
+    public String toString() {
+        return "Transfer Details: \n\t" +
+                "transfer id: " + getTransferId() +
+                "\n\ttransfer amount: " + getAmount() +
+                "\n\tstatus: " + getStatus() +
+                "\n\ttype: " + getType() +
+                "\n\ttransfer type id: " + getTransferTypeId() +
+                "\n\ttransfer status id: " + getTransferStatusId() +
+                "\n\taccount from: " + getAccountFrom() +
+                "\n\taccount to: " + getAccountTo();
+    }
 }
