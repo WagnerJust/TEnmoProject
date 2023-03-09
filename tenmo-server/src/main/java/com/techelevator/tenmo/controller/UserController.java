@@ -1,54 +1,121 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
+import com.techelevator.tenmo.dao.TransactionDao;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transaction;
 import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
+@PreAuthorize("isAuthenticated()")
+@RequestMapping(path = "/user")
+
 public class UserController {
 
-    private UserDao dao;
-    private AccountDao accountDao;
 
+    private final UserDao userDao;
+    private final TransactionDao transactionDao;
+    private final AccountDao accountDao;
 
-    @PreAuthorize("isAuthenticated()")
-    public String retrieveUsername() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        return ((UserDetails) authentication.getPrincipal()).getUsername();
+    public UserController(UserDao userDao, TransactionDao transactionDao, AccountDao accountDao) {
+        this.userDao = userDao;
+        this.transactionDao = transactionDao;
+        this.accountDao = accountDao;
+    }
+//User Functions
+    @RequestMapping(method = RequestMethod.GET)
+    public List<User> findAll(){
+        return userDao.findAll();
     }
 
-    @PreAuthorize("isAuthenticated()")
-    public BigDecimal getBalance() {
-        return accountDao.getAccountByUserId(dao.findIdByUsername(retrieveUsername())).getBalance();
+    @RequestMapping(value = "{username}", method = RequestMethod.GET)
+    public User findByUsername(@PathVariable @RequestParam String username){
+        User user = userDao.findByUsername(username);
+        if(user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        } else return user;
     }
 
+    public int findIdByUsername(String username){
+        int id = 0;
+        id = userDao.findIdByUsername(username);
+        if(id == 0 ) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        } else return id;
+    }
+
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable int id){
+        User user = userDao.getUserById(id);
+        if(user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        } else return user;
+    }
+
+    @PreAuthorize("permitAll")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(name = "/register", method = RequestMethod.POST)
-    public boolean createUser(@RequestParam String username, @RequestParam String password) throws HttpClientErrorException.BadRequest {
-
-        return dao.create(username, password);
+    @RequestMapping(method = RequestMethod.POST)
+    public boolean create(@RequestParam String username, @RequestParam String password){
+        return userDao.create(username,password);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(name = "/login", method = RequestMethod.GET)
-    public User getUser(@RequestParam String username) throws HttpClientErrorException.BadRequest {
-        return dao.findByUsername(username);
+    //Account Functions
+    public Account getAccountByUserId(int userId){
+        Account account = accountDao.getAccountByUserId(userId);
+        if(account == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        } else return account;
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(name = "/user/{id}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable int id) throws HttpClientErrorException.BadRequest {
-        return dao.getUserById(id);
+    @RequestMapping(method = RequestMethod.GET)
+    public BigDecimal getBalance(@RequestParam (value = "{us}") int userId){
+        return accountDao.getBalance(userId);
     }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateBalance(@RequestParam BigDecimal balance, @RequestParam int userId){
+        accountDao.updateBalance(balance,userId);
+    }
+
+    //Transaction Functions
+
+
+    public List<Transaction> listAllTransactions(){
+        return transactionDao.listAllTransactions();
+    }
+
+    @RequestMapping(path = "/{id}/transaction" ,method = RequestMethod.GET)
+    public List<Transaction> listTransactionByUserid(@PathVariable int id){
+        return transactionDao.listTranscationByUserId(id);
+    }
+
+    @RequestMapping( path = "/{id}/transaction/{transactionId}",method = RequestMethod.GET)
+    public Transaction getTransactionByTransactionId(@PathVariable("id") int id, @PathVariable("transactionId") int transactionId){
+        return transactionDao.getTransactionByTransactionId(id);
+    }
+
+    @RequestMapping(path = "/{id}/transaction" , method = RequestMethod.POST)
+    public void createTransaction(@PathVariable int id, @RequestParam Transaction transaction){
+        transactionDao.createTransaction(transaction);
+    }
+
+
+
+
+
+
+//    @RequestMapping( path = "/transaction/{id}" , method = RequestMethod.PUT)
+//    public void updateTransactionStatus(@PathVariable int id, @RequestParam int statusId){
+//        transactionDao.updateTransactionStatus(id, statusId);
+//    }
+
 }

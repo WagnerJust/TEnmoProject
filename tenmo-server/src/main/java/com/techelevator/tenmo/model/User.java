@@ -2,6 +2,7 @@ package com.techelevator.tenmo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -9,9 +10,11 @@ import java.util.Set;
 public class  User {
 
    private int id;
+   @NotNull
    private String username;
    private Account account;
    @JsonIgnore // prevent from being sent to client
+   @NotNull
    private String password;
    @JsonIgnore
    private boolean activated;

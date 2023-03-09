@@ -1,7 +1,6 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.*;
-import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.UserService;
@@ -15,7 +14,6 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final UserService userService = new UserService();
-    private final AccountService accountService = new AccountService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
@@ -93,7 +91,7 @@ public class App {
 
 	private void viewCurrentBalance() {
         System.out.println();
-        System.out.println("Current Balance: " + accountService.getUserBalance());
+        System.out.println("Current Balance: " + userService.getUserBalance(currentUser.getUser().getId()));
 
 		// TODO Auto-generated method stub
 		
@@ -102,7 +100,7 @@ public class App {
 	private void viewTransferHistory() {
         System.out.println();
         System.out.println("Transaction History:\n");
-        for(Transaction transaction : accountService.getAllTransactions()){
+        for(Transaction transaction : userService.getAllTransactions()){
             System.out.println(transaction.toString());
         }
 		// TODO Auto-generated method stub
@@ -130,9 +128,9 @@ public class App {
         User fromUser = currentUser.getUser();
 
 
-        userService.updateBalance(toUser.getId());
-        userService.updateBalance(fromUser.getId());
-        toUser.getAccount().setBalance(toUser.getAccount().getBalance());
+//        userService.updateBalance(toUser.getId());
+//        userService.updateBalance(fromUser.getId());
+//        toUser.getAccount().setBalance(toUser.getAccount().getBalance());
 
 
 		// TODO Auto-generated method stub
