@@ -45,4 +45,10 @@ public class UserController {
     public User getUser(@RequestParam String username) throws HttpClientErrorException.BadRequest {
         return dao.findByUsername(username);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(name = "/user/{id}", method = RequestMethod.GET)
+    public User getUserById(@PathVariable int id) throws HttpClientErrorException.BadRequest {
+        return dao.getUserById(id);
+    }
 }

@@ -1,12 +1,15 @@
 package com.techelevator.tenmo.services;
 
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transaction;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
 
 public class AccountService {
 
@@ -16,6 +19,17 @@ public class AccountService {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    public BigDecimal getUserBalance() {
+        BigDecimal balance = null;
+        try {
+            ResponseEntity<Account> response = restTemplate.getForEntity(API_BASE_URL, Account.class, makeAuthEntity());
+            balance = response.getBody().getBalance();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return balance;
     }
 
     public Transaction[] getAllTransactions() {
