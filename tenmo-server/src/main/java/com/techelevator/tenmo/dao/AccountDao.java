@@ -9,6 +9,8 @@ public interface AccountDao {
 
     Account getAccountByUserId(int userId);
     BigDecimal getBalance(int userId);
+    void updateBalance(BigDecimal balance, int userId);
+
 
 
 }

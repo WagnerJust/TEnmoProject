@@ -9,7 +9,7 @@ public interface TransactionDao {
     List<Transaction> listAllTransactions();
     List<Transaction> listTranscationByUserId(int userId);
     Transaction getTransactionByTransactionId(int transactionId);
-    void createTransfer(Transaction transaction);
-    void updateTransferStatus(int transfeId, int transferStatusId);
+    void createTransaction(Transaction transaction);
+    void updateTransactionStatus(int transactionId, int transactionStatusId);
 
 }

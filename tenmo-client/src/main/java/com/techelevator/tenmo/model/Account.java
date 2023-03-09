@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Account {
-     private BigDecimal balance;
 
-     private List<Transaction> transactionHistory;
-
-
-
-     //getters setters
+    private BigDecimal balance;
+    private int accountId;
 
 
     public BigDecimal getBalance() {
@@ -22,18 +18,25 @@ public class Account {
         this.balance = balance;
     }
 
-    public List<Transaction> getTransactionHistory() {
-        return transactionHistory;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setTransactionHistory(List<Transaction> transactionHistory) {
-        this.transactionHistory = transactionHistory;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
-    public Account(List<Transaction> transactionHistory) {
+    public Account(BigDecimal balance, int accountId) {
+        this.balance = balance;
+        this.accountId = accountId;
+    }
+
+    public Account(int accountId) {
         this.balance = new BigDecimal("1000.00");
-        this.transactionHistory = new ArrayList<>();
+        this.accountId = accountId;
     }
 
+    public Account() {
 
+    };
 }

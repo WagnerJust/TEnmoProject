@@ -51,29 +51,28 @@ public class JdbcTransactionDao implements TransactionDao {
         return transaction;
     }
     @Override
-    public void createTransfer(Transaction transaction) {
+    public void createTransaction(Transaction transaction) {
         String sql = "INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (?,?,?,?,?)";
-        jdbcTemplate.update(sql, transaction.getTransferTypeId(), transaction.getTransferStatusId(), transaction.getAccountFrom(),
-                transaction.getAccountTo(), transaction.getAmount());
+        jdbcTemplate.update(sql, transaction.getTypeId(), transaction.getStatusId(), transaction.getActingId(),
+                transaction.getTargetId(), transaction.getAmount());
     }
     @Override
-    public void updateTransferStatus(int transferId, int transferStatusId) {
+    public void updateTransactionStatus(int transactionId, int transactionStatusId) {
         String updateStatus = "UPDATE transfers "
                 + "SET transfer_status_id = ? "
                 + "WHERE transfer_id = ? ";
-
-        jdbcTemplate.update(updateStatus, transferStatusId, transferId);
+        jdbcTemplate.update(updateStatus, transactionId, transactionStatusId);
 
     }
 
 
     private Transaction mapRowToTransfer(SqlRowSet rowSet) {
         Transaction transaction = new Transaction();
-        transaction.setTransferId(rowSet.getInt("transfer_id"));
-        transaction.setTransferTypeId(rowSet.getInt("transfer_type_id"));
-        transaction.setTransferStatusId(rowSet.getInt("transfer_status_id"));
-        transaction.setAccountFrom(rowSet.getInt("account_from"));
-        transaction.setAccountTo(rowSet.getInt("account_to"));
+        transaction.setTransactionId(rowSet.getInt("transfer_id"));
+        transaction.setTypeId(rowSet.getInt("transfer_type_id"));
+        transaction.setStatusId(rowSet.getInt("transfer_status_id"));
+        transaction.setActingId(rowSet.getInt("account_from"));
+        transaction.setTargetId(rowSet.getInt("account_to"));
         transaction.setAmount(rowSet.getBigDecimal("amount"));
 
         return transaction;

@@ -44,14 +44,16 @@ public class JdbcAccountDao implements AccountDao {
         return account;
     }
 
-
+    @Override
+    public void updateBalance(BigDecimal balance, int userId){
+        String sql = "Update account set balance = ? where accountId = ?";
+        jdbcTemplate.update(sql, balance, userId);
+    }
 
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
+        account.setAccountId(rowSet.getInt("account_id"));
         account.setBalance(rowSet.getBigDecimal("balance"));
         return account;
     }
 }
-
-// account.setAccountId(rowSet.getInt("account_id")); // Need Setter in Account
-// account.setUserId(rowSet.getInt("user_id")); // Need Setter in Account

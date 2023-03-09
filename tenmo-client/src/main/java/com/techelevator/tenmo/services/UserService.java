@@ -54,7 +54,7 @@ public class UserService {
 
     public void updateBalance(User updatedUser) {
         try{
-            restTemplate.put(API_BASE_URL +, Account.class);
+            restTemplate.put(API_BASE_URL, Account.class);
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }

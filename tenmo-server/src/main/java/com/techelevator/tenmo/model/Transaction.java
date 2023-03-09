@@ -3,22 +3,48 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
 public class Transaction {
-    private int transferId;
+    private int transactionId;
+    private int actingId;
+    private int targetId;
+
     private BigDecimal amount;
-    private String status;
-    private String type;
-    private int transferTypeId;
-    private int transferStatusId;
-    private int accountFrom;
-    private int accountTo;
+    private int statusId = 2;
+    private int typeId;
 
+//constructors
 
-    public int getTransferId() {
-        return transferId;
+    public Transaction(){}
+
+    public Transaction(int actingId, int targetId, BigDecimal amount, int statusId, int typeId) {
+        this.actingId = actingId;
+        this.targetId = targetId;
+        this.amount = amount;
+        this.statusId = statusId;
+        this.typeId = typeId;
+    }
+//getters and setters
+    public int getActingId() {
+        return actingId;
     }
 
-    public void setTransferId(int transferId) {
-        this.transferId = transferId;
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public void setActingId(int actingId) {
+        this.actingId = actingId;
+    }
+
+    public int getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(int targetId) {
+        this.targetId = targetId;
     }
 
     public BigDecimal getAmount() {
@@ -29,67 +55,29 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getStatus() {
-        return status;
+    public int getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
     }
 
-    public String getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
-
-    public int getTransferTypeId() {
-        return transferTypeId;
-    }
-
-    public void setTransferTypeId(int transferTypeId) {
-        this.transferTypeId = transferTypeId;
-    }
-
-    public int getTransferStatusId() {
-        return transferStatusId;
-    }
-
-    public void setTransferStatusId(int transferStatusId) {
-        this.transferStatusId = transferStatusId;
-    }
-
-    public int getAccountFrom() {
-        return accountFrom;
-    }
-
-    public void setAccountFrom(int accountFrom) {
-        this.accountFrom = accountFrom;
-    }
-
-    public int getAccountTo() {
-        return accountTo;
-    }
-
-    public void setAccountTo(int accountTo) {
-        this.accountTo = accountTo;
-    }
-
-
-    public Transaction(int transferId, BigDecimal amount, String status, String type, int transferTypeId, int transferStatusId, int accountFrom, int accountTo) {
-        this.transferId = transferId;
-        this.amount = amount;
-        this.status = status;
-        this.type = type;
-        this.transferTypeId = transferTypeId;
-        this.transferStatusId = transferStatusId;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
-    }
-
-    public Transaction(){
-
+    @Override
+    public String toString() {
+        return "Transfer Details: \n\t" +
+                "transfer id: " + getTransactionId() +
+                "\n\ttransfer amount: " + getAmount() +
+                "\n\ttransfer status: " + getStatusId() +
+                "\n\ttransfer type: " + getTypeId() +
+                "\n\ttransfer from: " + getActingId() +
+                "\n\ttransfer to: " + getTargetId();
     }
 }
