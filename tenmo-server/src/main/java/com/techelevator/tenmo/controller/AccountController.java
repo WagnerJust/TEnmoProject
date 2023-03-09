@@ -45,6 +45,18 @@ public class AccountController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "", method = RequestMethod.PUT)
+    public void addBalanceByUserId(@RequestParam int id, @RequestParam BigDecimal moneyAmount) throws UsernameNotFoundException {
+        dao.getAccountByUserId(id).setBalance(dao.getBalance(id).add(moneyAmount));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "", method = RequestMethod.PUT)
+    public void subtractBalanceByUserId(@RequestParam int id, @RequestParam BigDecimal moneyAmount) throws UsernameNotFoundException {
+        dao.getAccountByUserId(id).setBalance(dao.getBalance(id).subtract(moneyAmount));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/balance", method = RequestMethod.GET)
     public BigDecimal getUserBalance() throws UsernameNotFoundException {
         UserController userController = new UserController();

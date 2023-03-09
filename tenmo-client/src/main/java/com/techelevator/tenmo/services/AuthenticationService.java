@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -52,4 +53,6 @@ public class AuthenticationService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(credentials, headers);
     }
+
+
 }

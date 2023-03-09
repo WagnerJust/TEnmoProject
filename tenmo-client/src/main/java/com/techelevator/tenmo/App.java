@@ -1,9 +1,6 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transaction;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
@@ -128,7 +125,16 @@ public class App {
         viewCurrentBalance();
         System.out.println("How much would you like to send: ");
         BigDecimal amount = userInput.nextBigDecimal();
-        
+
+        User toUser = userService.getUserById(toId);
+        User fromUser = currentUser.getUser();
+
+
+        userService.updateBalance(toUser.getId());
+        userService.updateBalance(fromUser.getId());
+        toUser.getAccount().setBalance(toUser.getAccount().getBalance());
+
+
 		// TODO Auto-generated method stub
 		
 	}
