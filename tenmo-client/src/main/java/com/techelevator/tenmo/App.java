@@ -2,11 +2,15 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transaction;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.UserService;
+
+import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class App {
 
@@ -18,6 +22,7 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
+    private Scanner userInput = new Scanner(System.in);
 
     public static void main(String[] args) {
         App app = new App();
@@ -74,12 +79,12 @@ public class App {
                 viewCurrentBalance();
             } else if (menuSelection == 2) {
                 viewTransferHistory();
-            } else if (menuSelection == 3) {
-                viewPendingRequests();
+//            } else if (menuSelection == 3) {
+//                //viewPendingRequests();
             } else if (menuSelection == 4) {
                 sendBucks();
-            } else if (menuSelection == 5) {
-                requestBucks();
+//            } else if (menuSelection == 5) {
+//                requestBucks();
             } else if (menuSelection == 0) {
                 continue;
             } else {
@@ -91,7 +96,7 @@ public class App {
 
 	private void viewCurrentBalance() {
         System.out.println();
-        System.out.println("Current Balance: " + accountService.getBalance());
+        System.out.println("Current Balance: " + accountService.getUserBalance());
 
 		// TODO Auto-generated method stub
 		
@@ -107,21 +112,30 @@ public class App {
 		
 	}
 
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
-	}
+//	private void viewPendingRequests() {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	private void sendBucks() {
         System.out.println();
-        userService.get
+        for(User user : userService.getAllUsers()){
+            System.out.println(user.getId() + ": " + user.getUsername());
+            System.out.println();
+        }
+        System.out.println("Enter ID of user you are sending to (0 to cancel): "); //TODO: handle 0 to cancel
+        int toId = userInput.nextInt();
+        viewCurrentBalance();
+        System.out.println("How much would you like to send: ");
+        BigDecimal amount = userInput.nextBigDecimal();
+        
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
-		
-	}
+//	private void requestBucks() {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 }
