@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface TransactionDao {
     List<Transaction> listAllTransactions();
-    List<Transaction> listTranscationsByUserId(int userId);
-
-    void updateTransaction(Transaction transaction);
-
+    List<Transaction> listTranscationByUserId(int userId);
+    Transaction getTransactionByTransactionId(int transactionId);
+    void createTransfer(Transaction transaction);
+    void updateTransferStatus(int transfeId, int transferStatusId);
 
 }
