@@ -57,23 +57,23 @@ public class AccountController {
 //    @RequestMapping(path = "")
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "to/user={username}", method = RequestMethod.POST)
-    public Transaction createTransactionTo(@PathVariable String username) throws HttpClientErrorException.BadRequest {
-
+    @RequestMapping(path = "to/user={id}", method = RequestMethod.POST)
+    public void createTransactionTo(@PathVariable int id, @RequestParam Transaction transaction) throws HttpClientErrorException.BadRequest {
+        transactionDao.createTransfer(transaction);
     }
 
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "from/user={username}", method = RequestMethod.POST)
-    public Transaction createTransactionFrom(@PathVariable String username) throws HttpClientErrorException.BadRequest {
-
+    @RequestMapping(path = "from/user={id}", method = RequestMethod.POST)
+    public void createTransactionFrom(@PathVariable int id, @RequestParam Transaction transaction) throws HttpClientErrorException.BadRequest {
+         transactionDao.createTransfer(transaction);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "?transaction={transactionId}", method = RequestMethod.GET)
     public Transaction getTransactionByTransactionid(@PathVariable int transactionId) throws HttpClientErrorException.BadRequest {
         UserController userController = new UserController();
-        transactionDao.getTransactionByTransactionId(transactionId);
+        return transactionDao.getTransactionByTransactionId(transactionId);
     }
 
 //    @ResponseStatus(HttpStatus.OK)
