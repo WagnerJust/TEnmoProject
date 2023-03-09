@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 public class Transaction {
     private int transferId;
-    private User acting;
-    private User target;
     private BigDecimal amount;
     private String status;
     private String type;
@@ -21,22 +19,6 @@ public class Transaction {
 
     public void setTransferId(int transferId) {
         this.transferId = transferId;
-    }
-
-    public User getActing() {
-        return acting;
-    }
-
-    public void setActing(User acting) {
-        this.acting = acting;
-    }
-
-    public User getTarget() {
-        return target;
-    }
-
-    public void setTarget(User target) {
-        this.target = target;
     }
 
     public BigDecimal getAmount() {
@@ -96,14 +78,17 @@ public class Transaction {
     }
 
 
-    public Transaction(int transferId, User acting, User target, BigDecimal amount, String status, String type) {
+    public Transaction(int transferId, BigDecimal amount, String status, String type, int transferTypeId, int transferStatusId, int accountFrom, int accountTo) {
         this.transferId = transferId;
-        this.acting = acting;
-        this.target = target;
         this.amount = amount;
         this.status = status;
         this.type = type;
+        this.transferTypeId = transferTypeId;
+        this.transferStatusId = transferStatusId;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
     }
+
     public Transaction(){
 
     }
