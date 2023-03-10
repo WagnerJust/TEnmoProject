@@ -4,8 +4,10 @@ import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.UserService;
+import com.techelevator.tenmo.model.User;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -121,17 +123,41 @@ public class App {
             System.out.println();
         }
         System.out.println("Enter ID of user you are sending to (0 to cancel): "); //TODO: handle 0 to cancel
+
         int toId = userInput.nextInt();
         viewCurrentBalance();
         System.out.println("How much would you like to send: ");
-        BigDecimal amount = userInput.nextBigDecimal();
-
-        User toUser = userService.getUserById(toId);
-        User fromUser = currentUser.getUser();
+        Double amount = userInput.nextDouble();
 
 
-//        userService.updateBalance(toUser.getId());
-//        userService.updateBalance(fromUser.getId());
+        User toUser = new User();
+        toUser.setId(toId);
+        for(User user : userService.getUserById(toId)) {
+            if(toId == user.getId()) {
+                toUser.setBalance(userService.getUserBalance(toId));
+                toUser.setUsername(user.getUsername());
+            }
+        }
+
+        int fromId = currentUser.getUser().getId();
+        User fromUser = new User();
+
+        for(User user : userService.getUserById(fromId)) {
+            if(fromId == user.getId()) {
+                fromUser.setId(currentUser.getUser().getId());
+                fromUser.setBalance(userService.getUserBalance(fromId));
+                fromUser.setUsername(user.getUsername());
+            }
+        }
+
+
+        userService.updateUserBalance(toId, toUser.getBalance() + amount);
+        userService.updateUserBalance(fromUser.getId(), fromUser.getBalance() - amount);
+
+//
+//
+//        userService.updateUserBalance(toId, toUser.getAccount().getBalance() + amount);
+//        userService.updateUserBalance(fromUser.getId(), fromUser.getAccount().getBalance() - amount);
 //        toUser.getAccount().setBalance(toUser.getAccount().getBalance());
 
 

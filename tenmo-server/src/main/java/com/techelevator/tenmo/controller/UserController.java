@@ -32,18 +32,36 @@ public class UserController {
         this.accountDao = accountDao;
     }
 //User Functions
+
+//    public void printList(List<User> users) {
+//        try {
+////            for (User user : users) {
+////                System.out.println(user.getId());
+////            }
+//            System.out.println("UserController");
+//        } catch (Exception e) {
+//            System.out.println("UserController");
+//        }
+//    }
+
+    @PreAuthorize("permitAll")
     @RequestMapping(method = RequestMethod.GET)
-    public List<User> findAll(){
-        return userDao.findAll();
+    public User[] findAll(){
+        User[] usersArray = new User[userDao.findAll().size()];
+//        printList(userDao.findAll());
+        for (int i = 0; i < userDao.findAll().size(); i++) {
+            usersArray[i] = userDao.findAll().get(i);
+        }
+        return usersArray;
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public User findByUsername(@PathVariable("username") @RequestParam String username){
-        User user = userDao.findByUsername(username);
-        if(user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        } else return user;
-    }
+//    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+//    public User findByUsername(@PathVariable("username") @RequestParam String username){
+//        User user = userDao.findByUsername(username);
+//        if(user == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+//        } else return user;
+//    }
 
     public int findIdByUsername(String username){
         int id = 0;
@@ -54,8 +72,17 @@ public class UserController {
     }
 
 
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable int id){
+    public User getUserById(@PathVariable("id") int id){
+        User user = userDao.getUserById(id);
+        if(user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        } else return user;
+    }
+
+    @RequestMapping(path = "/id?={id}", method = RequestMethod.GET)
+    public User getAnyUserById(@RequestParam int id) {
         User user = userDao.getUserById(id);
         if(user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
@@ -91,8 +118,8 @@ public class UserController {
 
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{userId}/balance", method = RequestMethod.PUT)
-    public void updateBalance(BigDecimal balance, @PathVariable("userId") int userId){
-        accountDao.updateBalance(balance,userId);
+    public void updateBalance(Double balance, @PathVariable("userId") int userId){
+        accountDao.updateBalance(balance, userId);
     }
 
     //Transaction Functions

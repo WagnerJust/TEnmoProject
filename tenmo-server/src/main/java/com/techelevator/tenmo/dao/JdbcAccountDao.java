@@ -5,13 +5,14 @@ import com.techelevator.tenmo.model.Transaction;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Component
+@Repository
 public class JdbcAccountDao implements AccountDao {
     private JdbcTemplate jdbcTemplate;
 
@@ -73,8 +74,8 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public void updateBalance(BigDecimal balance, int userId){
-        String sql = "Update account set balance = ? where accountId = ?";
+    public void updateBalance(Double balance, int userId){
+        String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
         jdbcTemplate.update(sql, balance, userId);
     }
 

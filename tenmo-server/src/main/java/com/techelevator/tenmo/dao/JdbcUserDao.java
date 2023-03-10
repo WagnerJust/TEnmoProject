@@ -8,12 +8,13 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class JdbcUserDao implements UserDao {
 
     private static final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
@@ -48,6 +49,16 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
+//    public void printList(List<User> users) {
+//        try {
+////            for (User user : users) {
+////                System.out.println(user.getId());
+////            }
+//            System.out.println("JdbcUserDao");
+//        } catch(Exception e) {
+//            System.out.println("JdbcUserDao");
+//        }
+//    }
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -58,6 +69,7 @@ public class JdbcUserDao implements UserDao {
             User user = mapRowToUser(results);
             users.add(user);
         }
+//        printList(users);
 
         return users;
     }

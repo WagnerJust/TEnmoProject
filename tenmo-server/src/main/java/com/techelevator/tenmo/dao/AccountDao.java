@@ -10,7 +10,7 @@ public interface AccountDao {
 
     Account getAccountByUserId(int userId);
     double getBalance(int userId) throws SQLException;
-    void updateBalance(BigDecimal balance, int userId);
+    void updateBalance(Double balance, int userId);
 
 
 

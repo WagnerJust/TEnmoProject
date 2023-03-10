@@ -5,15 +5,15 @@ import java.util.Objects;
 public class User {
 
     private int id;
-    private Account account;
+    private Double balance;
     private String username;
 
-    public Account getAccount() {
-        return account;
+    public Double getBalance() {
+        return balance;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     public int getId() {
@@ -44,9 +44,10 @@ public class User {
     }
     @Override
     public String toString() {
-        return "Transfer Details: \n\t" +
+
+        return "User Details: \n\t" +
                 "User id: " + getId() +
-                "\n\tUser Account: " + getAccount();
+                "\n\tUser Balance: " +  getBalance();
     }
     @Override
     public int hashCode() {
