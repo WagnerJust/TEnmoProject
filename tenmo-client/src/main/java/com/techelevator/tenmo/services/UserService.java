@@ -183,4 +183,21 @@ public class UserService {
         headers.setBearerAuth(authToken);
         return new HttpEntity<>(headers);
     }
+
+
+//
+//    public User[] getUsername() {
+//        User[] user = null;
+//        try {
+//            //        ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class);
+//            //     ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class);
+//            Map<String, String> uriVariable = new HashMap<>();
+//            uriVariable.put("username", id.toString());
+//            user = restTemplate.getForObject(API_BASE_URL + "user/" + "?id=" + "{id}", User[].class, uriVariable);
+//            //   user = response.getBody();
+//        } catch (RestClientResponseException | ResourceAccessException e) {
+//            BasicLogger.log(e.getMessage());
+//        }
+//        return user;
+//    }
 }

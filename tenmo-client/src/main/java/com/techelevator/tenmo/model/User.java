@@ -11,6 +11,17 @@ public class User {
     public Double getBalance() {
         return balance;
     }
+    public User() {
+    }
+
+    public User(int id) {
+        this.balance = 1000.00;
+    }
+    public User (int id, Double balance, String username) {
+        this.id = id;
+        this.balance = balance;
+        this.username = username;
+    }
 
     public void setBalance(Double balance) {
         this.balance = balance;

@@ -42,8 +42,8 @@ public class JdbcAccountDao implements AccountDao {
         String sql = "SELECT balance FROM account WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
 //        balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
-//        if (balance.equals(null)) {
-//            return BigDecimal.valueOf(Long.parseLong("1000"));
+////        if (balance.equals(null)) {
+////            return BigDecimal.valueOf(Long.parseLong("1000"));
 //        }
         while (result.next()) {
             balance = result.getDouble("balance");

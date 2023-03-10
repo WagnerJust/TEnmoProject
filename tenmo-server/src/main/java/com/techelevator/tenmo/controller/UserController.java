@@ -118,7 +118,7 @@ public class UserController {
 
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{userId}/balance", method = RequestMethod.PUT)
-    public void updateBalance(Double balance, @PathVariable("userId") int userId){
+    public void updateBalance(@RequestBody Double balance, @PathVariable("userId") int userId){
         accountDao.updateBalance(balance, userId);
     }
 

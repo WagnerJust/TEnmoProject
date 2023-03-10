@@ -140,7 +140,9 @@ public class App {
         }
 
         int fromId = currentUser.getUser().getId();
-        User fromUser = new User();
+        User fromUser = new User(fromId);
+        fromUser.setBalance(userService.getUserBalance(fromId));
+  //      fromUser.setUsername(userService.getUsername());
 
         for(User user : userService.getUserById(fromId)) {
             if(fromId == user.getId()) {
@@ -150,9 +152,15 @@ public class App {
             }
         }
 
+  //      userService.updateUserBalance(toId, userService.getUserBalance(toId) + amount);
+  //      userService.updateUserBalance(fromUser.getId(), userService.getUserBalance(fromId) - amount);
 
         userService.updateUserBalance(toId, toUser.getBalance() + amount);
         userService.updateUserBalance(fromUser.getId(), fromUser.getBalance() - amount);
+
+
+//        userService.updateUserBalance(toId, 500.00);
+//        userService.updateUserBalance(fromUser.getId(), 300.00);
 
 //
 //
