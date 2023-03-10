@@ -42,7 +42,12 @@ public class User {
             return false;
         }
     }
-
+    @Override
+    public String toString() {
+        return "Transfer Details: \n\t" +
+                "User id: " + getId() +
+                "\n\tUser Account: " + getAccount();
+    }
     @Override
     public int hashCode() {
         return Objects.hash(id, username);

@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Account {
 
-    private BigDecimal balance;
+    private Double balance;
     private int accountId;
 
 
-    public BigDecimal getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -26,17 +26,23 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Account(BigDecimal balance, int accountId) {
+    public Account(Double balance, int accountId) {
         this.balance = balance;
         this.accountId = accountId;
     }
 
     public Account(int accountId) {
-        this.balance = new BigDecimal("1000.00");
+        this.balance = 1000.00;
         this.accountId = accountId;
     }
 
     public Account() {
 
     };
+
+    @Override
+    public String toString() {
+        return "Account Details: \n\t" +
+                "Account Balance: " + getBalance();
+    }
 }

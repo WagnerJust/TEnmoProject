@@ -91,9 +91,11 @@ public class App {
 
 	private void viewCurrentBalance() {
         System.out.println();
+//        System.out.println("Current Balance: " + userService.getUserBalance());
         System.out.println("Current Balance: " + userService.getUserBalance(currentUser.getUser().getId()));
 
-		// TODO Auto-generated method stub
+
+        // TODO Auto-generated method stub
 		
 	}
 

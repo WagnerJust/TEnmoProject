@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Component
 public class JdbcAccountDao implements AccountDao {
@@ -19,16 +21,42 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public BigDecimal getBalance(int userId) {
-        BigDecimal balance = null;
-        String sql = "SELECT balance FROM accounts WHERE user_id = ?";
+//    public BigDecimal getBalance(int userId) throws SQLException {
+//        BigDecimal balance = null;
+//        String sql = "SELECT balance FROM account WHERE user_id = ?";
+//      SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+////        balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
+////        if (balance.equals(null)) {
+////            return BigDecimal.valueOf(Long.parseLong("1000"));
+////        }
+//        while (result.next()) {
+//            balance = result.getBigDecimal("balance");
+//        }
+//        balance = getBigDecimalSafe(result, "balance");
+//        return balance;
+//    }
+
+    public double getBalance(int userId) throws SQLException {
+        double balance = 0;
+        String sql = "SELECT balance FROM account WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
-
+//        balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
+//        if (balance.equals(null)) {
+//            return BigDecimal.valueOf(Long.parseLong("1000"));
+//        }
         while (result.next()) {
-            balance = result.getBigDecimal("balance");
+            balance = result.getDouble("balance");
         }
-
+//        balance = getBigDecimalSafe(result, "balance");
         return balance;
+    }
+
+    public BigDecimal getBigDecimalSafe(SqlRowSet resultSet, String columnName) throws SQLException {
+        BigDecimal bigDecimal = null;
+        if(resultSet.getString(columnName) != null){
+            bigDecimal = new BigDecimal(resultSet.getString(columnName));
+        }
+        return bigDecimal;
     }
 
 

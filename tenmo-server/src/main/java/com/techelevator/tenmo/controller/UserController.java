@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -36,8 +37,8 @@ public class UserController {
         return userDao.findAll();
     }
 
-    @RequestMapping(value = "{username}", method = RequestMethod.GET)
-    public User findByUsername(@PathVariable @RequestParam String username){
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public User findByUsername(@PathVariable("username") @RequestParam String username){
         User user = userDao.findByUsername(username);
         if(user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
@@ -76,13 +77,21 @@ public class UserController {
         } else return account;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public BigDecimal getBalance(@RequestParam (value = "{us}") int userId){
-        return accountDao.getBalance(userId);
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/{userId}/balance", method = RequestMethod.GET)
+    public double getBalance(@PathVariable("userId") int userId){
+        double balance = 0;
+        try {
+            balance = accountDao.getBalance(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return balance;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public void updateBalance(@RequestParam BigDecimal balance, @RequestParam int userId){
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/{userId}/balance", method = RequestMethod.PUT)
+    public void updateBalance(BigDecimal balance, @PathVariable("userId") int userId){
         accountDao.updateBalance(balance,userId);
     }
 
@@ -109,7 +118,6 @@ public class UserController {
     }
 
 
-//For Youngjin!!
 
 
 
