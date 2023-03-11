@@ -2,7 +2,6 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transaction;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransactionDao {
@@ -10,6 +9,6 @@ public interface TransactionDao {
     List<Transaction> listTranscationByUserId(int userId);
     Transaction getTransactionByTransactionId(int transactionId);
     void createTransaction(Transaction transaction);
-    void updateTransactionStatus(int transactionId, int transactionStatusId);
+    void updateTransactionStatus(int transactionId, int transactiontransfer_status_id);
 
 }

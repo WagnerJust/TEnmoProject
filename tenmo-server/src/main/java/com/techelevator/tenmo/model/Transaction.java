@@ -1,30 +1,29 @@
 package com.techelevator.tenmo.model;
 
-import java.math.BigDecimal;
 
 public class Transaction {
     private int transactionId;
-    private int actingId;
-    private int targetId;
+    private int account_from;
+    private int account_to;
 
-    private BigDecimal amount;
-    private int statusId = 2;
-    private int typeId;
+    private double amount;
+    private int transfer_status_id = 2;
+    private int transfer_type_id;
 
 //constructors
 
     public Transaction(){}
 
-    public Transaction(int actingId, int targetId, BigDecimal amount, int statusId, int typeId) {
-        this.actingId = actingId;
-        this.targetId = targetId;
+    public Transaction(int account_from, int account_to, double amount, int transfer_status_id, int transfer_type_id) {
+        this.account_from = account_from;
+        this.account_to = account_to;
         this.amount = amount;
-        this.statusId = statusId;
-        this.typeId = typeId;
+        this.transfer_status_id = transfer_status_id;
+        this.transfer_type_id = transfer_type_id;
     }
 //getters and setters
-    public int getActingId() {
-        return actingId;
+    public int getaccount_from() {
+        return account_from;
     }
 
     public int getTransactionId() {
@@ -35,49 +34,49 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public void setActingId(int actingId) {
-        this.actingId = actingId;
+    public void setaccount_from(int account_from) {
+        this.account_from = account_from;
     }
 
-    public int getTargetId() {
-        return targetId;
+    public int getaccount_to() {
+        return account_to;
     }
 
-    public void setTargetId(int targetId) {
-        this.targetId = targetId;
+    public void setaccount_to(int account_to) {
+        this.account_to = account_to;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public int getStatusId() {
-        return statusId;
+    public int gettransfer_status_id() {
+        return transfer_status_id;
     }
 
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+    public void settransfer_status_id(int transfer_status_id) {
+        this.transfer_status_id = transfer_status_id;
     }
 
-    public int getTypeId() {
-        return typeId;
+    public int gettransfer_type_id() {
+        return transfer_type_id;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void settransfer_type_id(int transfer_type_id) {
+        this.transfer_type_id = transfer_type_id;
     }
     @Override
     public String toString() {
         return "Transfer Details: \n\t" +
                 "transfer id: " + getTransactionId() +
                 "\n\ttransfer amount: " + getAmount() +
-                "\n\ttransfer status: " + getStatusId() +
-                "\n\ttransfer type: " + getTypeId() +
-                "\n\ttransfer from: " + getActingId() +
-                "\n\ttransfer to: " + getTargetId();
+                "\n\ttransfer status: " + gettransfer_status_id() +
+                "\n\ttransfer type: " + gettransfer_type_id() +
+                "\n\ttransfer from: " + getaccount_from() +
+                "\n\ttransfer to: " + getaccount_to();
     }
 }

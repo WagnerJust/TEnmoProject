@@ -8,10 +8,11 @@ import com.techelevator.tenmo.model.Transaction;
 import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class UserController {
 //    }
 
     @PreAuthorize("permitAll")
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(path = "",method = RequestMethod.GET)
     public User[] findAll(){
         User[] usersArray = new User[userDao.findAll().size()];
 //        printList(userDao.findAll());
@@ -62,6 +63,7 @@ public class UserController {
 //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
 //        } else return user;
 //    }
+
 
     public int findIdByUsername(String username){
         int id = 0;
@@ -80,7 +82,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         } else return user;
     }
-
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/id?={id}", method = RequestMethod.GET)
     public User getAnyUserById(@RequestParam int id) {
         User user = userDao.getUserById(id);
@@ -129,28 +131,35 @@ public class UserController {
         return transactionDao.listAllTransactions();
     }
 
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/{id}/transaction" ,method = RequestMethod.GET)
     public List<Transaction> listTransactionByUserid(@PathVariable int id){
         return transactionDao.listTranscationByUserId(id);
     }
 
+    @PreAuthorize("permitAll")
     @RequestMapping( path = "/{id}/transaction/{transactionId}",method = RequestMethod.GET)
     public Transaction getTransactionByTransactionId(@PathVariable("id") int id, @PathVariable("transactionId") int transactionId){
         return transactionDao.getTransactionByTransactionId(id);
     }
-
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/{id}/transaction" , method = RequestMethod.POST)
-    public void createTransaction(@PathVariable int id, @RequestParam Transaction transaction){
+    public void createTransaction(@PathVariable int id, @RequestBody Transaction transaction){
         transactionDao.createTransaction(transaction);
     }
-
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/whoami")
+    public String whoAmI() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
 
 
 
 
 //    @RequestMapping( path = "/transaction/{id}" , method = RequestMethod.PUT)
-//    public void updateTransactionStatus(@PathVariable int id, @RequestParam int statusId){
-//        transactionDao.updateTransactionStatus(id, statusId);
+//    public void updateTransactionStatus(@PathVariable int id, @RequestParam int transfer_status_id){
+//        transactionDao.updateTransactionStatus(id, transfer_status_id);
 //    }
 
 }

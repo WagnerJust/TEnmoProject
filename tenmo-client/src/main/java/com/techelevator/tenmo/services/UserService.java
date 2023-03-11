@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transaction;
 import com.techelevator.tenmo.model.User;
@@ -14,10 +15,11 @@ import java.util.Map;
 
 public class UserService {
     public static final String API_BASE_URL = "http://localhost:8080";
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
     private String authToken = null;
     private AuthenticatedUser currentUser;
 
+    public void setAuthToken(String authToken){this.authToken = authToken;}
     public User[] getAllUsers() {
         User[] users = null;
         try {
@@ -35,78 +37,22 @@ public class UserService {
     public User[] getUserById(Integer id) {
         User[] user = null;
         try {
-            //        ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class);
-            //     ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class);
+
             Map<String, String> uriVariable = new HashMap<>();
             uriVariable.put("id", id.toString());
             user = restTemplate.getForObject(API_BASE_URL + "user/" + "?id=" + "{id}", User[].class, uriVariable);
-         //   user = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return user;
     }
 
-//    public void updateBalance(User updatedUser) {
-//        try{
-//            restTemplate.put(API_BASE_URL + "/user/" + updatedUser.getId() + "/balance", Account.class);
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            BasicLogger.log(e.getMessage());
-//        }
-//    }
-
-//    public User findByUsername(String userName) {
-//        User user = null;
-//        User[] allUsers = getAllUsers();
-//        for(User userError: allUsers){
-//            if (userError.getUsername().equals(userName)){
-//                user = userError;
-//            }
-//        }
-//        try {
-//            ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + user.getId(), HttpMethod.GET, makeAuthEntity(), User.class);
-//            user = response.getBody();
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            BasicLogger.log(e.getMessage());
-//        }
-//        return user;
-//    }
-//
-//    public int findIdByUsername(String userName) {
-//        User user = null;
-//        User[] allUsers = getAllUsers();
-//        for(User userError: allUsers){
-//            if (userError.getUsername().equals(userName)){
-//                user = userError;
-//            }
-//        }
-//        try {
-//            ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + user.getId(), HttpMethod.GET, makeAuthEntity(), User.class);
-//            user = response.getBody();
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            BasicLogger.log(e.getMessage());
-//        }
-//        return user.getId();
-//    }
-//
-//    public Account getAccountByUserId(int userId) {
-//        Account account = null;
-//        try {
-//            ResponseEntity<Account> response = restTemplate.exchange(API_BASE_URL + "/account/" + userId, HttpMethod.GET, makeAuthEntity(), Account.class);
-//            account = response.getBody();
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            BasicLogger.log(e.getMessage());
-//        }
-//        return account;
-//    }
-
     public Double getUserBalance(int userId) {
         Double balance = null;
         try {
-           // ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + userId + "/balance" , HttpMethod.GET, makeAuthEntity(), User.class);
+
             ResponseEntity<Double> response = restTemplate.exchange(API_BASE_URL + "/user/" + userId + "/balance" , HttpMethod.GET, makeAuthEntity(), Double.class);
 
-//            System.out.println(response.getBody().getAccount().toString());
             balance = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
@@ -116,11 +62,8 @@ public class UserService {
 
     public Double updateUserBalance(int userId, Double balance) {
         try {
-            // ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + userId + "/balance" , HttpMethod.GET, makeAuthEntity(), User.class);
-            restTemplate.put(API_BASE_URL + "/user/" + userId + "/balance", balance);
 
-//            System.out.println(response.getBody().getAccount().toString());
-//            System.out.println(balance.toString());
+            restTemplate.put(API_BASE_URL + "/user/" + userId + "/balance", balance);
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
@@ -141,9 +84,11 @@ public class UserService {
     public Transaction[] getTransactionByUserId(int userId) {
         Transaction[] userTransactions = null;
         try {
-            ResponseEntity<Transaction[]> response = restTemplate.exchange(API_BASE_URL + "/user/" + userId, HttpMethod.GET, makeAuthEntity(), Transaction[].class);
-            userTransactions = response.getBody();
+          ResponseEntity<Transaction[]> response = restTemplate.exchange(API_BASE_URL + "/user/" + userId, HttpMethod.GET, makeAuthEntity(), Transaction[].class);
+          userTransactions = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        } catch(Exception e){
             BasicLogger.log(e.getMessage());
         }
         return userTransactions;
@@ -185,19 +130,5 @@ public class UserService {
     }
 
 
-//
-//    public User[] getUsername() {
-//        User[] user = null;
-//        try {
-//            //        ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class);
-//            //     ResponseEntity<User> response = restTemplate.exchange(API_BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class);
-//            Map<String, String> uriVariable = new HashMap<>();
-//            uriVariable.put("username", id.toString());
-//            user = restTemplate.getForObject(API_BASE_URL + "user/" + "?id=" + "{id}", User[].class, uriVariable);
-//            //   user = response.getBody();
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            BasicLogger.log(e.getMessage());
-//        }
-//        return user;
-//    }
+
 }

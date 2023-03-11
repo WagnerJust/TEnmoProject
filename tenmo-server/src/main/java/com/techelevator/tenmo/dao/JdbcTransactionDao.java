@@ -20,7 +20,7 @@ public class JdbcTransactionDao implements TransactionDao {
     public List<Transaction> listTranscationByUserId(int userId) {
         List<Transaction> transactions = new ArrayList<>();
         String sql = "SELECT * FROM transfer WHERE transfer_status_id = 2 AND (account_from = ? OR account_to = ?);";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId,userId);
         while (result.next()){
             Transaction transaction = mapRowToTransfer(result);
             transactions.add(transaction);
@@ -54,15 +54,15 @@ public class JdbcTransactionDao implements TransactionDao {
     @Override
     public void createTransaction(Transaction transaction) {
         String sql = "INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (?,?,?,?,?)";
-        jdbcTemplate.update(sql, transaction.getTypeId(), transaction.getStatusId(), transaction.getActingId(),
-                transaction.getTargetId(), transaction.getAmount());
+        jdbcTemplate.update(sql, transaction.gettransfer_type_id(), transaction.gettransfer_status_id(), transaction.getaccount_from(),
+                transaction.getaccount_to(), transaction.getAmount());
     }
     @Override
-    public void updateTransactionStatus(int transactionId, int transactionStatusId) {
+    public void updateTransactionStatus(int transactionId, int transactiontransfer_status_id) {
         String updateStatus = "UPDATE transfers "
                 + "SET transfer_status_id = ? "
                 + "WHERE transfer_id = ? ";
-        jdbcTemplate.update(updateStatus, transactionId, transactionStatusId);
+        jdbcTemplate.update(updateStatus, transactionId, transactiontransfer_status_id);
 
     }
 
@@ -70,11 +70,11 @@ public class JdbcTransactionDao implements TransactionDao {
     private Transaction mapRowToTransfer(SqlRowSet rowSet) {
         Transaction transaction = new Transaction();
         transaction.setTransactionId(rowSet.getInt("transfer_id"));
-        transaction.setTypeId(rowSet.getInt("transfer_type_id"));
-        transaction.setStatusId(rowSet.getInt("transfer_status_id"));
-        transaction.setActingId(rowSet.getInt("account_from"));
-        transaction.setTargetId(rowSet.getInt("account_to"));
-        transaction.setAmount(rowSet.getBigDecimal("amount"));
+        transaction.settransfer_type_id(rowSet.getInt("transfer_type_id"));
+        transaction.settransfer_status_id(rowSet.getInt("transfer_status_id"));
+        transaction.setaccount_from(rowSet.getInt("account_from"));
+        transaction.setaccount_to(rowSet.getInt("account_to"));
+        transaction.setAmount(rowSet.getDouble("amount"));
 
         return transaction;
     }

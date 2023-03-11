@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,18 +21,18 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-//    public BigDecimal getBalance(int userId) throws SQLException {
-//        BigDecimal balance = null;
+//    public double getBalance(int userId) throws SQLException {
+//        double balance = null;
 //        String sql = "SELECT balance FROM account WHERE user_id = ?";
 //      SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
-////        balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
+////        balance = jdbcTemplate.queryForObject(sql, double.class, userId);
 ////        if (balance.equals(null)) {
-////            return BigDecimal.valueOf(Long.parseLong("1000"));
+////            return double.valueOf(Long.parseLong("1000"));
 ////        }
 //        while (result.next()) {
-//            balance = result.getBigDecimal("balance");
+//            balance = result.getdouble("balance");
 //        }
-//        balance = getBigDecimalSafe(result, "balance");
+//        balance = getdoubleSafe(result, "balance");
 //        return balance;
 //    }
 
@@ -41,23 +40,15 @@ public class JdbcAccountDao implements AccountDao {
         double balance = 0;
         String sql = "SELECT balance FROM account WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
-//        balance = jdbcTemplate.queryForObject(sql, BigDecimal.class, userId);
+//        balance = jdbcTemplate.queryForObject(sql, double.class, userId);
 ////        if (balance.equals(null)) {
-////            return BigDecimal.valueOf(Long.parseLong("1000"));
+////            return double.valueOf(Long.parseLong("1000"));
 //        }
         while (result.next()) {
             balance = result.getDouble("balance");
         }
-//        balance = getBigDecimalSafe(result, "balance");
+//        balance = getdoubleSafe(result, "balance");
         return balance;
-    }
-
-    public BigDecimal getBigDecimalSafe(SqlRowSet resultSet, String columnName) throws SQLException {
-        BigDecimal bigDecimal = null;
-        if(resultSet.getString(columnName) != null){
-            bigDecimal = new BigDecimal(resultSet.getString(columnName));
-        }
-        return bigDecimal;
     }
 
 
@@ -82,7 +73,7 @@ public class JdbcAccountDao implements AccountDao {
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
         account.setAccountId(rowSet.getInt("account_id"));
-        account.setBalance(rowSet.getBigDecimal("balance"));
+        account.setBalance(rowSet.getDouble("balance"));
         return account;
     }
 }

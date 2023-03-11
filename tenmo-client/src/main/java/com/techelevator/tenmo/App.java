@@ -65,6 +65,7 @@ public class App {
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
+        userService.setAuthToken(currentUser.getToken());
     }
 
     private void mainMenu() {
@@ -104,7 +105,7 @@ public class App {
 	private void viewTransferHistory() {
         System.out.println();
         System.out.println("Transaction History:\n");
-        for(Transaction transaction : userService.getAllTransactions()){
+        for(Transaction transaction : userService.getTransactionByUserId(currentUser.getUser().getId())){
             System.out.println(transaction.toString());
         }
 		// TODO Auto-generated method stub
