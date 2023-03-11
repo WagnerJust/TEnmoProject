@@ -18,8 +18,11 @@ public class App {
     private final UserService userService = new UserService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
+
     private AuthenticatedUser currentUser;
     private Scanner userInput = new Scanner(System.in);
+
+
 
     public static void main(String[] args) {
         App app = new App();
@@ -118,17 +121,42 @@ public class App {
 //	}
 
 	private void sendBucks() {
+        int fromId = currentUser.getUser().getId();
         System.out.println();
-        for(User user : userService.getAllUsers()){
+        for(User user : userService.getAllUsers()) {
+            if (currentUser.getUser().getId() == user.getId()) {
+                continue;
+            }
             System.out.println(user.getId() + ": " + user.getUsername());
             System.out.println();
         }
-        System.out.println("Enter ID of user you are sending to (0 to cancel): "); //TODO: handle 0 to cancel
 
+
+        for(User user : userService.getAllUsers()) {
+            if (currentUser.getUser().getId() == user.getId()) {
+                continue;
+            }
+            System.out.println("Enter ID of user you are sending to (0 to cancel): "); //TODO: handle 0 to cancel
+            while (!userInput.hasNextInt() || userInput.nextInt() == currentUser.getUser().getId()) {
+                System.out.println("Please try again. The ID has to the exact number and not your account's ID:");
+                userInput.next();
+            }
+        }
+        Double amount = null;
         int toId = userInput.nextInt();
         viewCurrentBalance();
         System.out.println("How much would you like to send: ");
-        Double amount = userInput.nextDouble();
+        userInput.next();
+
+
+            while ((!userInput.hasNextDouble() || (userInput.hasNextDouble()
+                    && ((userInput.nextDouble() > userService.getUserBalance(fromId)) || (userInput.nextDouble() <= 0))))) {
+                System.out.println("Please try again. The amount you send has to be a number greater than zero " +
+                        "and less than or equal to your own balance.");
+                userInput.next();
+            }
+
+
 
 
         User toUser = new User();
@@ -140,7 +168,6 @@ public class App {
             }
         }
 
-        int fromId = currentUser.getUser().getId();
         User fromUser = new User(fromId);
         fromUser.setBalance(userService.getUserBalance(fromId));
   //      fromUser.setUsername(userService.getUsername());
