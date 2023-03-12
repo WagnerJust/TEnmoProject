@@ -73,11 +73,11 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transfer Details: \n\t" +
-                "transfer id: " + getTransactionId() +
-                "\n\ttransfer amount: " + getAmount() +
-                "\n\ttransfer status: " + getStatusId() +
-                "\n\ttransfer type: " + getTypeId() +
-                "\n\ttransfer from: " + getActingId() +
-                "\n\ttransfer to: " + getTargetId();
+                "transfer id: " + getTransactionId() + "|" +
+                "transfer amount: " + getAmount() + "|" +
+                "transfer status: " + getStatusId() + "|" +
+                "transfer type: " + getTypeId() + "|" +
+                "transfer from: " + getActingId() + "|" +
+                "transfer to: " + getTargetId();
     }
 }

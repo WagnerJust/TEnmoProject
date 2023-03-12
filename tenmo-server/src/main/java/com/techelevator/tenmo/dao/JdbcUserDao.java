@@ -10,13 +10,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class JdbcUserDao implements UserDao {
 
-    private static final double STARTING_BALANCE = 1000.00;
+    private static final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {

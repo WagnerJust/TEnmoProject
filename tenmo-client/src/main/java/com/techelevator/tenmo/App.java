@@ -68,7 +68,6 @@ public class App {
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
-        userService.setAuthToken(currentUser.getToken());
     }
 
     private void mainMenu() {
@@ -104,11 +103,10 @@ public class App {
         // TODO Auto-generated method stub
 		
 	}
-
 	private void viewTransferHistory() {
         System.out.println();
         System.out.println("Transaction History:\n");
-        for(Transaction transaction : userService.getTransactionByUserId(currentUser.getUser().getId())){
+        for(Transaction transaction : userService.getTransactionByUserId(2003)){
             System.out.println(transaction.toString());
         }
 		// TODO Auto-generated method stub
@@ -131,32 +129,29 @@ public class App {
             System.out.println();
         }
 
-
-        for(User user : userService.getAllUsers()) {
-            if (currentUser.getUser().getId() == user.getId()) {
-                continue;
-            }
-            System.out.println("Enter ID of user you are sending to (0 to cancel): "); //TODO: handle 0 to cancel
-            while (!userInput.hasNextInt() || userInput.nextInt() == currentUser.getUser().getId()) {
-                System.out.println("Please try again. The ID has to the exact number and not your account's ID:");
+        int toId;
+        do {
+            System.out.println("Enter ID of user you are sending to (0 to cancel): ");
+            while(!userInput.hasNextInt()){
+                System.out.println("Please try again. The ID has to be the exact number and not your account's ID:");
                 userInput.next();
             }
-        }
+            toId = userInput.nextInt();
+        }while(toId <= 0 || currentUser.getUser().getId() == toId);
+//                System.out.println("Please try again. The ID has to the exact number and not your account's ID:");
+//                userInput.next();
+
         Double amount = null;
-        int toId = userInput.nextInt();
         viewCurrentBalance();
-        System.out.println("How much would you like to send: ");
-        userInput.next();
 
-
-            while ((!userInput.hasNextDouble() || (userInput.hasNextDouble()
-                    && ((userInput.nextDouble() > userService.getUserBalance(fromId)) || (userInput.nextDouble() <= 0))))) {
-                System.out.println("Please try again. The amount you send has to be a number greater than zero " +
-                        "and less than or equal to your own balance.");
+        do {
+            System.out.println("How much would you like to send: ");
+            while(!userInput.hasNextDouble()){
+                System.out.println("Please type in the correct amount:");
                 userInput.next();
             }
-
-
+            amount = userInput.nextDouble();
+        }while((((amount > userService.getUserBalance(fromId)) || (amount <= 0))));
 
 
         User toUser = new User();
