@@ -96,10 +96,10 @@ public class UserService {
 //        BasicLogger.log(e.getMessage());
 //        }
 //        return user;
-    public Transaction getTransactionByTransferId(int transferId) {
+    public Transaction getTransactionByTransferId(Integer transferId) {
         Transaction transaction = null;
         try {
-            ResponseEntity<Transaction> response = restTemplate.getForEntity(API_BASE_URL + "/user/" + currentUser.getUser().getId() + "transaction/" + transferId, Transaction.class);
+            ResponseEntity<Transaction> response = restTemplate.exchange(API_BASE_URL + "/user/" + transferId + "/transactionDetails/", HttpMethod.GET, makeAuthEntity(),Transaction.class);
             transaction = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());

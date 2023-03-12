@@ -150,9 +150,9 @@ public class UserController {
 //    }
 
     @PreAuthorize("permitAll")
-    @RequestMapping( path = "/{id}/transaction/{transactionId}",method = RequestMethod.GET)
-    public Transaction getTransactionByTransactionId(@PathVariable("id") int id, @PathVariable("transactionId") int transactionId){
-        return transactionDao.getTransactionByTransactionId(id);
+    @RequestMapping( path = "/{transferId}/transactionDetails/",method = RequestMethod.GET)
+    public Transaction getTransactionByTransactionId(@PathVariable("transferId") Integer transferId){
+        return transactionDao.getTransactionByTransactionId(transferId);
     }
 
     @PreAuthorize("permitAll")
