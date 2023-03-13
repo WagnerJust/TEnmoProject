@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
@@ -150,14 +151,15 @@ public class UserController {
 //    }
 
     @PreAuthorize("permitAll")
-    @RequestMapping( path = "/{id}/transaction/{transactionId}",method = RequestMethod.GET)
-    public Transaction getTransactionByTransactionId(@PathVariable("id") int id, @PathVariable("transactionId") int transactionId){
-        return transactionDao.getTransactionByTransactionId(id);
+    @RequestMapping( path = "/{transferId}/transactionDetails/",method = RequestMethod.GET)
+    public Transaction getTransactionByTransactionId(@PathVariable("transferId") Integer transferId){
+        return transactionDao.getTransactionByTransactionId(transferId);
     }
 
     @PreAuthorize("permitAll")
-    @RequestMapping(path = "/{id}/transaction" , method = RequestMethod.POST)
-    public void createTransaction(@PathVariable int id, @RequestParam Transaction transaction){
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @RequestMapping(path = "/transaction" , method = RequestMethod.POST)
+    public void createTransaction(@RequestBody @Valid Transaction transaction){
         transactionDao.createTransaction(transaction);
     }
 

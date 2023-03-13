@@ -7,7 +7,7 @@ public class Transaction {
     private int actingId;
     private int targetId;
 
-    private BigDecimal amount;
+    private Double amount;
     private int statusId = 2;
     private int typeId;
 
@@ -15,7 +15,7 @@ public class Transaction {
 
     public Transaction(){}
 
-    public Transaction(int actingId, int targetId, BigDecimal amount, int statusId, int typeId) {
+    public Transaction(Integer actingId, Integer targetId, Double amount, Integer statusId, Integer typeId) {
         this.actingId = actingId;
         this.targetId = targetId;
         this.amount = amount;
@@ -31,11 +31,11 @@ public class Transaction {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
-    public void setActingId(int actingId) {
+    public void setActingId(Integer actingId) {
         this.actingId = actingId;
     }
 
@@ -43,15 +43,15 @@ public class Transaction {
         return targetId;
     }
 
-    public void setTargetId(int targetId) {
+    public void setTargetId(Integer targetId) {
         this.targetId = targetId;
     }
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -59,7 +59,7 @@ public class Transaction {
         return statusId;
     }
 
-    public void setStatusId(int statusId) {
+    public void setStatusId(Integer statusId) {
         this.statusId = statusId;
     }
 
@@ -67,17 +67,63 @@ public class Transaction {
         return typeId;
     }
 
-    public void setTypeId(int typeId) {
+    public void setTypeId(Integer typeId) {
         this.typeId = typeId;
     }
     @Override
     public String toString() {
+        String type = null;
+        String status;
+
+        if (getTypeId() == 1) {
+            type = "Request";
+        } else if (getTypeId() == 2) {
+            type = "Send";
+        }
+        
+        if (getStatusId() == 1) {
+            status = "Pending";
+        } else if (getStatusId() == 2) {
+            status = "Approved";
+        } else {
+            status = "Rejected";
+        }
+
+        if (type.equals("Send")) {
+
+        }
         return "Transfer Details: \n\t" +
-                "transfer id: " + getTransactionId() + "|" +
-                "transfer amount: " + getAmount() + "|" +
-                "transfer status: " + getStatusId() + "|" +
-                "transfer type: " + getTypeId() + "|" +
-                "transfer from: " + getActingId() + "|" +
-                "transfer to: " + getTargetId();
+                "Id: " + getTransactionId() + " | " +
+                "Amount: $" + getAmount() + " | " +
+                "Status: " + status + " | " +
+                "Type: " + type + " | " +
+                "From: " + getActingId() + " | " +
+                "To: " + getTargetId();
+    }
+
+    public String toStringDetails() {
+        String type = null;
+        String status;
+
+        if (getTypeId() == 1) {
+            type = "Request";
+        } else if (getTypeId() == 2) {
+            type = "Send";
+        }
+
+        if (getStatusId() == 1) {
+            status = "Pending";
+        } else if (getStatusId() == 2) {
+            status = "Approved";
+        } else {
+            status = "Rejected";
+        }
+        return "Transfer Details: \n\t" +
+                "Id: " + getTransactionId() + " | " +
+                "Amount: $" + getAmount() + " | " +
+                "Status: " + status + " | " +
+                "Type: " + type + " | " +
+                "From: " + getActingId() + " | " +
+                "To: " + getTargetId();
     }
 }

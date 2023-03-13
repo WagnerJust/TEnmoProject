@@ -96,10 +96,10 @@ public class UserService {
 //        BasicLogger.log(e.getMessage());
 //        }
 //        return user;
-    public Transaction getTransactionByTransferId(int transferId) {
+    public Transaction getTransactionByTransferId(Integer transferId) {
         Transaction transaction = null;
         try {
-            ResponseEntity<Transaction> response = restTemplate.getForEntity(API_BASE_URL + "/user/" + currentUser.getUser().getId() + "transaction/" + transferId, Transaction.class);
+            ResponseEntity<Transaction> response = restTemplate.exchange(API_BASE_URL + "/user/" + transferId + "/transactionDetails/", HttpMethod.GET, makeAuthEntity(),Transaction.class);
             transaction = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
@@ -107,15 +107,15 @@ public class UserService {
         return transaction;
     }
 
-    public Transaction addTransaction(Transaction newTransaction) {
-        HttpEntity<Transaction> entity = makeTransactionEntity(newTransaction);
-        Transaction returnedTransaction = null;
+    public void createTransaction(Transaction transaction) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Transaction> httpEntity = new HttpEntity<>(transaction, headers);
         try {
-            returnedTransaction = restTemplate.postForObject(API_BASE_URL + "/user/" + currentUser.getUser().getId() + "/transaction", entity, Transaction.class);
+            restTemplate.postForObject(API_BASE_URL + "/user/" + "transaction", httpEntity, Transaction.class);
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-        return returnedTransaction;
     }
 
     private HttpEntity<Transaction> makeTransactionEntity(Transaction transaction) {

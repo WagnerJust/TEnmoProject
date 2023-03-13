@@ -7,6 +7,7 @@ import com.techelevator.tenmo.services.UserService;
 import com.techelevator.tenmo.model.User;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -85,7 +86,10 @@ public class App {
                 sendBucks();
 //            } else if (menuSelection == 5) {
 //                requestBucks();
-            } else if (menuSelection == 0) {
+            } else if (menuSelection == 6) {
+                transferDetails();
+            }
+            else if (menuSelection == 0) {
                 continue;
             } else {
                 System.out.println("Invalid Selection");
@@ -104,9 +108,10 @@ public class App {
 		
 	}
 	private void viewTransferHistory() {
+        Integer accountId = currentUser.getUser().getId() + 1000;
         System.out.println();
         System.out.println("Transaction History:\n");
-        for(Transaction transaction : userService.getTransactionByUserId(2003)){
+        for(Transaction transaction : userService.getTransactionByUserId(accountId)){
             System.out.println(transaction.toString());
         }
 		// TODO Auto-generated method stub
@@ -137,7 +142,7 @@ public class App {
                 userInput.next();
             }
             toId = userInput.nextInt();
-        }while(toId <= 0 || currentUser.getUser().getId() == toId);
+        } while(toId <= 0 || currentUser.getUser().getId() == toId);
 //                System.out.println("Please try again. The ID has to the exact number and not your account's ID:");
 //                userInput.next();
 
@@ -174,13 +179,21 @@ public class App {
                 fromUser.setUsername(user.getUsername());
             }
         }
-
+        Integer accountFrom = fromId + 1000;
+        Integer accountTo = toId + 1000;
+        Integer statusId = 2;
+        Integer typeId = 2;
   //      userService.updateUserBalance(toId, userService.getUserBalance(toId) + amount);
   //      userService.updateUserBalance(fromUser.getId(), userService.getUserBalance(fromId) - amount);
-
+        Transaction transaction = new Transaction();
+        transaction.setActingId(accountFrom);
+        transaction.setTargetId(accountTo);
+        transaction.setAmount(amount);
+        transaction.setStatusId(statusId);
+        transaction.setTypeId(typeId);
         userService.updateUserBalance(toId, toUser.getBalance() + amount);
         userService.updateUserBalance(fromUser.getId(), fromUser.getBalance() - amount);
-
+        userService.createTransaction(transaction);
 
 //        userService.updateUserBalance(toId, 500.00);
 //        userService.updateUserBalance(fromUser.getId(), 300.00);
@@ -195,6 +208,29 @@ public class App {
 		// TODO Auto-generated method stub
 		
 	}
+
+    private void transferDetails() {
+        Integer transferId;
+        ArrayList<Integer> transferIdList = new ArrayList<>();
+        Integer accountId = currentUser.getUser().getId() + 1000;
+
+        for(Transaction transaction : userService.getTransactionByUserId(accountId)){
+             transferIdList.add(transaction.getTransactionId());
+        }
+
+        do {
+            System.out.println("Please enter the transfer ID of the transfer you want details for.");
+            while(!userInput.hasNextInt()){
+                System.out.println("Please type in an integer");
+                userInput.next();
+            }
+            transferId = userInput.nextInt();
+        }while((( !transferIdList.contains(transferId)|| (transferId <= 0))));
+        System.out.println();
+        System.out.println("Transaction Details:\n");
+            System.out.println(userService.getTransactionByTransferId(transferId).toString());
+
+    }
 
 //	private void requestBucks() {
 //		// TODO Auto-generated method stub
